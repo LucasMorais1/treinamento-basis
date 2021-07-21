@@ -1,0 +1,34 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="20210719174800-1" author="lucas.morais"
+               objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="tb_anexo">
+            <column name="co_anexo" type="bigint"
+                    autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="no_anexo" type="varchar(200)">
+                <constraints nullable="false" />
+            </column>
+            <column name="file" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="co_tarefa" type="bigint"/>
+        </createTable>
+
+        <createSequence sequenceName="sq_anexo" startValue="1"/>
+
+    </changeSet>
+
+    <changeSet id="20210719174800-2" author="lucas.morais"
+               objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addForeignKeyConstraint baseTableName="tb_anexo" baseColumnNames="co_tarefa" constraintName="ct_fk_anexo_tarefa"
+                                 referencedTableName="tb_tarefa"
+                                 referencedColumnNames="co_tarefa"/>
+    </changeSet>
+
+</databaseChangeLog>
+

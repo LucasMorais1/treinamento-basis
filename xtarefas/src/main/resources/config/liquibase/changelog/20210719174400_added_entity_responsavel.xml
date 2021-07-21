@@ -1,0 +1,29 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="20210719174400-1" author="lucas.morais"
+               objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+
+        <createTable tableName="tb_responsavel">
+            <column name="co_responsavel" type="bigint"
+                    autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="no_responsavel" type="varchar(200)">
+                <constraints nullable="false" />
+            </column>
+            <column name="ds_email" type="varchar(200)">
+                <constraints nullable="false" />
+            </column>
+            <column name="dt_nascimento" type="date">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createSequence sequenceName="sq_responsavel" startValue="1"/>
+    </changeSet>
+
+</databaseChangeLog>
+

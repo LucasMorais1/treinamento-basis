@@ -1,0 +1,38 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="20210719172300-1" author="lucas.morais"
+               objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="tb_tarefa">
+            <column name="co_tarefa" type="bigint"
+                    autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="no_tarefa" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_conclusao_tarefa" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_inicio_tarefa" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="st_tarefa" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="co_responsavel" type="bigint"/>
+        </createTable>
+        <createSequence sequenceName="sq_tarefa" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="20210719172300-2" author="lucas.morais"
+               objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addForeignKeyConstraint baseTableName="tb_tarefa" baseColumnNames="co_responsavel" constraintName="ct_fk_tarefa_responsavel"
+                                 referencedTableName="tb_responsavel"
+                                 referencedColumnNames="co_responsavel"/>
+    </changeSet>
+
+</databaseChangeLog>
+

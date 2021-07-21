@@ -1,0 +1,8 @@
+server:
+  port: 8081
+application:
+  url: http://localhost:9000
+  acess_key: xdocumento
+  secret_key: xdocumento
+  bucket: documento
+

@@ -6,6 +6,7 @@ import io.minio.GetObjectArgs;
 import io.minio.GetObjectResponse;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectArgs;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
@@ -16,28 +17,36 @@ import java.nio.charset.StandardCharsets;
 @AllArgsConstructor
 public class DocumentService {
 
-    private final MinioClient client;
+    private final MinioClient minioClient;
 
     private final ApplicationProperties applicationProperties;
 
     @SneakyThrows
-    private String save(DocumentDto documentoDTO) {
-        client.putObject(PutObjectArgs.builder()
-                .stream(new ByteArrayInputStream(documentoDTO.getFile().getBytes()),
-                        documentoDTO.getFile().getBytes().length, 0)
+    public String save(DocumentDto documentoDto){
+        minioClient.putObject(PutObjectArgs.builder()
+                .stream(new ByteArrayInputStream(documentoDto.getFile().getBytes()),documentoDto.getFile().getBytes().length,0)
                 .contentType(StandardCharsets.UTF_8.toString())
                 .bucket(applicationProperties.getBucket())
-                .object(documentoDTO.getUuId())
+                .object(documentoDto.getUuid())
                 .build());
-        return documentoDTO.getUuId();
+        return documentoDto.getUuid();
     }
 
     @SneakyThrows
-    public DocumentDto getDocument(String uuId) {
-        GetObjectResponse file = client.getObject(GetObjectArgs.builder()
+    public DocumentDto getDocument(String uuid){
+        GetObjectResponse file = minioClient.getObject(GetObjectArgs.builder()
                 .bucket(applicationProperties.getBucket())
-                .object(uuId)
+                .object(uuid)
                 .build());
-        return new DocumentDto(uuId, IOUtils.toString(file, StandardCharsets.UTF_8.toString()));
+        return new DocumentDto(uuid, IOUtils.toString(file, StandardCharsets.UTF_8.toString()));
     }
+
+    @SneakyThrows
+    public void deletar(String uuid){
+        minioClient.removeObject(RemoveObjectArgs.builder()
+                .bucket(applicationProperties.getBucket())
+                .object(uuid)
+                .build());
+    }
+
 }

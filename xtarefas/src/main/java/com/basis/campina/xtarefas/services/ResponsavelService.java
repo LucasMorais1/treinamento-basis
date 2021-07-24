@@ -1,12 +1,19 @@
 package com.basis.campina.xtarefas.services;
 
 import com.basis.campina.xtarefas.domain.Responsavel;
+import com.basis.campina.xtarefas.domain.elasticsearch.ResponsavelDocument;
 import com.basis.campina.xtarefas.repository.ResponsavelRepository;
+import com.basis.campina.xtarefas.repository.elastic.ResponsavelSearchRepository;
 import com.basis.campina.xtarefas.services.dto.ResponsavelDTO;
+import com.basis.campina.xtarefas.services.event.ResponsavelEvent;
 import com.basis.campina.xtarefas.services.exception.RegraNegocioException;
 import com.basis.campina.xtarefas.services.feign.DocumentClient;
+import com.basis.campina.xtarefas.services.filter.ResponsavelFilter;
 import com.basis.campina.xtarefas.services.mapper.ResponsavelMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,6 +30,10 @@ public class ResponsavelService {
 
     private final DocumentClient documentClient;
 
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    private final ResponsavelSearchRepository responsavelSearchRepository;
+
     public List<ResponsavelDTO> listar() {
         return this.mapper.toDto(this.repository.findAll());
     }
@@ -33,6 +44,16 @@ public class ResponsavelService {
     }
 
     public ResponsavelDTO adicionar(ResponsavelDTO responsavelDto) {
+        if (responsavelDto.getId() != null) {
+            verificaRepeticao(responsavelDto.getId());
+        }
+        Responsavel responsavel = mapper.toEntity(responsavelDto);
+        Responsavel responsavelSalvo = repository.save(responsavel);
+        applicationEventPublisher.publishEvent(new ResponsavelEvent(responsavel.getId()));
+        return mapper.toDto(responsavelSalvo);
+    }
+
+    public ResponsavelDTO adicionar2(ResponsavelDTO responsavelDto) {
         if (responsavelDto.getId() != null) {
             verificaRepeticao(responsavelDto.getId());
         }
@@ -54,5 +75,9 @@ public class ResponsavelService {
 
     public String getFeingTest() {
         return this.documentClient.getAll();
+    }
+
+    public Page<ResponsavelDocument> search(ResponsavelFilter responsavelFilter, Pageable pageable){
+        return responsavelSearchRepository.search(responsavelFilter.getFilter(), pageable);
     }
 }

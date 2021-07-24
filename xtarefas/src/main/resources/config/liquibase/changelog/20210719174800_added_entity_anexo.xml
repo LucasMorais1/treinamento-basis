@@ -16,6 +16,9 @@
             <column name="file" type="text">
                 <constraints nullable="false" />
             </column>
+            <column name="co_uuid" type="varchar(200)">
+                <constraints nullable="false" />
+            </column>
             <column name="co_tarefa" type="bigint"/>
         </createTable>
 

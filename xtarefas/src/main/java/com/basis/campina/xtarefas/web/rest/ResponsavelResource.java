@@ -1,8 +1,13 @@
 package com.basis.campina.xtarefas.web.rest;
 
+import com.basis.campina.xtarefas.domain.elasticsearch.ResponsavelDocument;
 import com.basis.campina.xtarefas.services.ResponsavelService;
 import com.basis.campina.xtarefas.services.dto.ResponsavelDTO;
+import com.basis.campina.xtarefas.services.filter.ResponsavelFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,9 +47,13 @@ public class ResponsavelResource {
         return ResponseEntity.ok(service.getFeingTest());
     }
 
-    @PostMapping
-    public ResponseEntity<ResponsavelDTO> salvar(@RequestBody @Valid ResponsavelDTO responsavelDTO) throws URISyntaxException {
-        return ResponseEntity.created(new URI("/api/responsaveis")).body(service.adicionar(responsavelDTO));
+    @PostMapping("/{add}")
+    public ResponseEntity<ResponsavelDTO> salvar(@RequestBody @Valid ResponsavelDTO responsavelDTO, @PathVariable Boolean add) throws URISyntaxException {
+        if (add) {
+            return ResponseEntity.created(new URI("/api/responsaveis")).body(service.adicionar(responsavelDTO));
+        } else {
+            return ResponseEntity.created(new URI("/api/responsaveis")).body(service.adicionar2(responsavelDTO));
+        }
     }
 
     @PutMapping
@@ -57,5 +66,11 @@ public class ResponsavelResource {
     public ResponseEntity<Void> remover(@PathVariable Long id) {
         service.remover(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<ResponsavelDocument>> search(@RequestBody ResponsavelFilter filter, Pageable pageable) {
+        Page<ResponsavelDocument> responsaveis = service.search(filter, pageable);
+        return new ResponseEntity<>(responsaveis, HttpStatus.OK);
     }
 }

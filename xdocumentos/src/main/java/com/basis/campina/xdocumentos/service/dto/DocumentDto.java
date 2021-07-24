@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DocumentDto {
-    private String uuId;
+    private String uuid;
     private String file;
 }

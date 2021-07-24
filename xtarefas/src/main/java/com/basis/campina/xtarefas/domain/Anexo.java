@@ -13,12 +13,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "tb_anexo")
-public class Anexo {
+public class Anexo implements Serializable {
+
+    private static final long serialVersionUID = 26766196059940690L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_anexo")
@@ -31,6 +34,9 @@ public class Anexo {
 
     @Column(name = "no_anexo")
     private String nome;
+
+    @Column(name="co_uuid")
+    private String uuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "co_tarefa")

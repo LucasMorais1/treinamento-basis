@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class MinioConfig {
-    private final  ApplicationProperties applicationProperties;
+    private final ApplicationProperties applicationProperties;
 
     @Bean
     public MinioClient minioClient() {
@@ -20,7 +20,7 @@ public class MinioConfig {
                 .endpoint(applicationProperties.getUrl())
                 .credentials(applicationProperties.getAcessKey(), applicationProperties.getSecretKey())
                 .build();
-        if(!existsBucket(minioClient, applicationProperties.getBucket())) {
+        if (!existsBucket(minioClient, applicationProperties.getBucket())) {
             makeBucket(minioClient, applicationProperties.getBucket());
         }
 
@@ -30,12 +30,14 @@ public class MinioConfig {
     @SneakyThrows
     public boolean existsBucket(MinioClient client, String bucketName) {
         return client.bucketExists(BucketExistsArgs.builder()
-        .bucket(bucketName)
-        .build());
+                .bucket(bucketName)
+                .build());
     }
 
     @SneakyThrows
     public void makeBucket(MinioClient minioClient, String bucketName) {
-        minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+        minioClient.makeBucket(MakeBucketArgs.builder()
+                .bucket(bucketName)
+                .build());
     }
 }

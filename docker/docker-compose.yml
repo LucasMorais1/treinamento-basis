@@ -4,3 +4,11 @@ services:
     extends:
       service: postgres
       file: postgresql.yml
+  minio-xtarefas:
+    extends:
+      service: minio
+      file: minio.yml
+  elasticsearch-xtarefas:
+    extends:
+      service: elasticsearch
+      file: elasticsearch.yml

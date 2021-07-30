@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output, Type, ViewChild } from '@angular/core';
 import { Table } from 'primeng';
+import { Filtro } from '../../model/responsavel-filtro';
 
 
 export class EventoSituacaoTabela {
@@ -39,14 +40,14 @@ export class Page<T> {
 @Component({
   selector: 'app-tabela-padrao',
   templateUrl: './tabela-padrao.component.html',
-  styleUrls: ['./tabela-padrao.component.css']
+  styleUrls: ['./tabela-padrao.component.scss']
 })
 export class TabelaPadraoComponent{
 
   @ViewChild('tabela') tabela: Table;
   @Input() resultado: Page<any> = new Page();
 
-  @Input() situacaoIconeCustomizados: boolean = false;
+  @Input() situacaoIconeCustomizados = false;
   @Input() colunas: ColunaTabela[] = [];
 
   @Output() carregarItens = new EventEmitter<EventoAtualizarTabela>();
@@ -55,10 +56,12 @@ export class TabelaPadraoComponent{
 
   nenhumRegistroCadastrado = 'Nenhum registro cadastrado.';
 
+  filtro: Filtro = new Filtro();
+
   carregarTabela() {
     this.carregarItens.emit({
       dadosTabela: this.tabela ? this.tabela : null,
-      filtroColuna: null
+      filtroColuna: this.filtro
     });
   }
 
@@ -69,7 +72,7 @@ export class TabelaPadraoComponent{
   }
 
   quantidadeColunas(): number {
-    return this.colunas.length;
+    return this.colunas.length + 1;
   }
 
   verificaColunaData(param: any): boolean {

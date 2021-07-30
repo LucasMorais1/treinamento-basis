@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class ElasticSearchService {
-    @Value("${nuvem.elasticsearch.reindex.pageSize:10}")
+    @Value("${nuvem.elasticsearch.reindex.pageSize:10000}")
     private Integer pageSize;
 
     private final List<Reindexer> reindexadores;

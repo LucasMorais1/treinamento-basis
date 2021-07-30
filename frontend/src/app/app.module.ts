@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorModule, SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { BreadcrumbModule, ErrorStackModule, MenuModule, PageNotificationModule } from '@nuvem/primeng-components';
 import { BlockUIModule } from 'ng-block-ui';
-import { TableModule } from 'primeng/table';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,7 +24,7 @@ import { SharedModule } from './shared/shared.module';
     ],
     imports: [
         BlockUIModule.forRoot({
-            message: "Carregando..."
+            message: 'Carregando...'
           }),
         BrowserModule,
         BrowserAnimationsModule,
@@ -39,7 +38,6 @@ import { SharedModule } from './shared/shared.module';
         VersionTagModule,
         SecurityModule.forRoot(environment.auth),
         MenuModule,
-        TableModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy }

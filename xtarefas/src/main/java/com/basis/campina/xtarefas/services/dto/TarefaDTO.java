@@ -29,7 +29,7 @@ public class TarefaDTO {
     @Size(max = 100)
     private String status;
 
-    private List<AnexoDTO> anexos;
-
     private Long responsavelId;
+
+    private List<AnexoDTO> anexos;
 }

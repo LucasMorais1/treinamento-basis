@@ -13,7 +13,7 @@ spring:
     deserealization:
       fail-on-unknown-properties: false
   datasource:
-   url: jdbc:postgresql://localhost:5429/xtarefas
+   url: jdbc:postgresql://localhost:5432/xtarefas
    username: xtarefas
    password: xtarefas
   liquibase:

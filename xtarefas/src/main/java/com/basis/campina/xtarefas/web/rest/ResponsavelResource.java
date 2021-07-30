@@ -37,23 +37,21 @@ public class ResponsavelResource {
         return ResponseEntity.ok(service.listar());
     }
 
+    @PostMapping("/listar")
+    public ResponseEntity<Page<ResponsavelDocument>> filtrar(@RequestBody List<Long> filtro, Pageable pageable) {
+        Page<ResponsavelDocument> resultado = service.filtrarPaginado(filtro, pageable);
+        return ResponseEntity.ok(resultado);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<ResponsavelDTO> obterPorId(@PathVariable Long id){
         return ResponseEntity.ok(service.obterPorId(id));
     }
 
-    @GetMapping("/feing")
-    public ResponseEntity<String> obterPorId(){
-        return ResponseEntity.ok(service.getFeingTest());
-    }
-
-    @PostMapping("/{add}")
-    public ResponseEntity<ResponsavelDTO> salvar(@RequestBody @Valid ResponsavelDTO responsavelDTO, @PathVariable Boolean add) throws URISyntaxException {
-        if (add) {
-            return ResponseEntity.created(new URI("/api/responsaveis")).body(service.adicionar(responsavelDTO));
-        } else {
-            return ResponseEntity.created(new URI("/api/responsaveis")).body(service.adicionar2(responsavelDTO));
-        }
+    @PostMapping()
+    public ResponseEntity<ResponsavelDTO> salvar(@RequestBody @Valid ResponsavelDTO responsavelDTO) throws URISyntaxException {
+        return ResponseEntity.created(new URI("/api/responsaveis")).body(service.adicionar(responsavelDTO));
     }
 
     @PutMapping

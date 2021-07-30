@@ -16,6 +16,9 @@ public class AnexoDTO {
     private String file;
 
     @NotBlank
+    private String uuid;
+
+    @NotBlank
     @Size(max = 200)
     private String nome;
 

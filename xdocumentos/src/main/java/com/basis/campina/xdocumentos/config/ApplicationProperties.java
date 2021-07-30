@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationProperties {
 
     private String url;
-    private String acessKey;
+    private String accessKey;
     private String secretKey;
     private String bucket;
 

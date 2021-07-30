@@ -15,13 +15,13 @@ public class ResponsavelFilter extends DefaultFilter implements BaseFilter, Seri
 
     private static final long serialVersionUID = -7504007336379159365L;
 
+    @Override
     public BoolQueryBuilder getFilter() {
         BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
-
         List<String> fields = new ArrayList<>();
-        filterFields(fields, query, queryBuilder, "nome", "email");
+        filterFields(fields, query, queryBuilder, "nome", "email", "status");
         addShouldTermQuery(queryBuilder, "dataNascimento", query);
 
-        return  queryBuilder;
+        return queryBuilder;
     }
 }

@@ -25,7 +25,6 @@ public class ResponsavelDocument extends BaseDocument {
         this.email = email;
         this.dataNascimento = dataNascimento != null ?
             dataNascimento.format(DateTimeFormatter.ofPattern(DATE_PATTERN)) : null ;
-
     }
 
     @MultiField(mainField = @Field(type = FieldType.Text, store = true),

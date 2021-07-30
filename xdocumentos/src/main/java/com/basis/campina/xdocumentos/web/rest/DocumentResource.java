@@ -1,7 +1,7 @@
 package com.basis.campina.xdocumentos.web.rest;
 
 import com.basis.campina.xdocumentos.service.DocumentService;
-import com.basis.campina.xdocumentos.service.dto.DocumentDto;
+import com.basis.campina.xdocumentos.service.dto.DocumentDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,12 +20,12 @@ public class DocumentResource {
     private final DocumentService documentService;
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<DocumentDto> buscar(@PathVariable("uuid") String uuid){
+    public ResponseEntity<DocumentDTO> buscar(@PathVariable("uuid") String uuid){
         return ResponseEntity.ok(documentService.getDocument(uuid));
     }
 
     @PostMapping
-    public ResponseEntity<String> salvar(@RequestBody DocumentDto documentDto){
+    public ResponseEntity<String> salvar(@RequestBody DocumentDTO documentDto){
         return ResponseEntity.ok(documentService.save(documentDto));
     }
 

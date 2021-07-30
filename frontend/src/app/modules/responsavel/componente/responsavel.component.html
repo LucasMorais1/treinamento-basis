@@ -1,1 +1,76 @@
-<p>responsavel works!</p>
+<div class="p-grid">
+    <div class="p-col-8">
+        <h2>Responsáveis</h2>
+    </div>
+    <div class="p-col-4 button-novo">
+        <button pButton type="button" icon="pi pi-plus" [label]="'Novo Responsavel'"
+                  class="ui-button-success button-success" (click)="abrirFormulario()"></button>
+    </div>
+</div>
+
+<div class="tabela">
+    <app-tabela-padrao #tabela [colunas]="colunasTabela" (carregarItens)="carregarResponsavel($event)"
+        (cliqueEditar)="ativarEditar($event)" (cliqueRemover)="validarExcluir($event)"></app-tabela-padrao>
+</div>
+
+
+<p-dialog id="modal-confirmacao" [(visible)]="exibirModalConfirmacao" [closable]="false" [showHeader]="false" [dismissableMask]="true">
+    <div class="container">
+        <p class="mensagem">Tem certeza que deseja excluir este responsavel?</p>
+      
+        <div class="row-buttons">
+          <div class="button-left">
+            <button pButton icon="pi pi-times" type="button" (click)="fecharModalConfirmacao()" [label]="'Não'"
+              class="ui-button-rounded ui-button-danger button-cancelar"></button>
+          </div>
+          <div class="button-right">
+            <button pButton icon="pi pi-check" type="button" [label]="'Sim'" (click)="confirmarExcluir()"
+              class="ui-button-rounded ui-button-success button-success"></button>
+          </div>
+        </div>
+      </div>
+</p-dialog>
+
+<p-dialog id="modal-formulario" header="Formulario" [(visible)]="exibirModalFormulario" [closable]="true" [dismissableMask]="true" [style]="{width: '750px'}">
+    <form [formGroup]="form" class="p-grid">
+        <div class="p-col-6">
+            <label for="nome">Nome: </label>
+            <span class="campo-obrigatorio">*</span>
+            <div>
+                <input formControlName="nome" [(ngModel)]="responsavel.nome" maxlength="200" required="true" type="text" pInputText>
+            </div>
+        </div>
+        
+        <div class="p-col-6">
+            <label for="nome">E-mail: </label>
+            <span class="campo-obrigatorio">*</span>
+            <div>
+                <input formControlName="email" [(ngModel)]="responsavel.email" maxlength="200" required="true" type="email" pInputText>
+            </div>
+        </div>
+
+        <div class="p-col-6">
+            <label for="nome">Data de Nascimento: </label>
+            <span class="campo-obrigatorio">*</span>
+            <div>
+                <input formControlName="dataNascimento" [(ngModel)]="responsavel.dataNascimento" maxlength="200" required="true" type="date" pInputText>
+            </div>
+        </div>
+
+        <div class="p-col-12">
+            <div class="row-buttons">
+                <div class="button-left">
+                  <button pButton icon="pi pi-times" type="button" (click)="fecharModalFormulario()" [label]="'Cancelar'"
+                    class="ui-button-rounded ui-button-danger button-cancelar"></button>
+                </div>
+                <div class="button-right">
+                  <button pButton icon="pi pi-check" type="button" [label]="'Salvar'" (click)="confirmarSalvar()"
+                    class="ui-button-rounded ui-button-success button-success"></button>
+                </div>
+              </div>
+        </div>
+
+    </form>
+
+</p-dialog>
+

@@ -18,12 +18,11 @@ public class MinioConfig {
     public MinioClient minioClient() {
         MinioClient minioClient = MinioClient.builder()
                 .endpoint(applicationProperties.getUrl())
-                .credentials(applicationProperties.getAcessKey(), applicationProperties.getSecretKey())
+                .credentials(applicationProperties.getAccessKey(), applicationProperties.getSecretKey())
                 .build();
         if (!existsBucket(minioClient, applicationProperties.getBucket())) {
             makeBucket(minioClient, applicationProperties.getBucket());
         }
-
         return minioClient;
     }
 

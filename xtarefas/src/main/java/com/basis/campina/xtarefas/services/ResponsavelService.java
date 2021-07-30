@@ -7,7 +7,6 @@ import com.basis.campina.xtarefas.repository.elastic.ResponsavelSearchRepository
 import com.basis.campina.xtarefas.services.dto.ResponsavelDTO;
 import com.basis.campina.xtarefas.services.event.ResponsavelEvent;
 import com.basis.campina.xtarefas.services.exception.RegraNegocioException;
-import com.basis.campina.xtarefas.services.feign.DocumentClient;
 import com.basis.campina.xtarefas.services.filter.ResponsavelFilter;
 import com.basis.campina.xtarefas.services.mapper.ResponsavelMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +14,11 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -28,8 +29,6 @@ public class ResponsavelService {
 
     private final ResponsavelRepository repository;
 
-    private final DocumentClient documentClient;
-
     private final ApplicationEventPublisher applicationEventPublisher;
 
     private final ResponsavelSearchRepository responsavelSearchRepository;
@@ -38,43 +37,37 @@ public class ResponsavelService {
         return this.mapper.toDto(this.repository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Page<ResponsavelDocument> filtrarPaginado(List<Long> ids, Pageable pageable) {
+        return repository.filtrarPaginado(ids, CollectionUtils.isEmpty(ids), pageable);
+    }
+
     public ResponsavelDTO obterPorId(Long id){
         Responsavel responsavel = repository.findById(id).orElseThrow(() -> new RegraNegocioException("Responsavel não encontrado"));
         return mapper.toDto(responsavel);
     }
 
     public ResponsavelDTO adicionar(ResponsavelDTO responsavelDto) {
-        if (responsavelDto.getId() != null) {
+        if (Objects.nonNull(responsavelDto.getId())) {
             verificaRepeticao(responsavelDto.getId());
         }
+        responsavelDto.setNome(responsavelDto.getNome());
         Responsavel responsavel = mapper.toEntity(responsavelDto);
         Responsavel responsavelSalvo = repository.save(responsavel);
         applicationEventPublisher.publishEvent(new ResponsavelEvent(responsavel.getId()));
         return mapper.toDto(responsavelSalvo);
     }
 
-    public ResponsavelDTO adicionar2(ResponsavelDTO responsavelDto) {
-        if (responsavelDto.getId() != null) {
-            verificaRepeticao(responsavelDto.getId());
-        }
-        Responsavel responsavel = mapper.toEntity(responsavelDto);
-        Responsavel responsavelSalvo = repository.save(responsavel);
-        return mapper.toDto(responsavelSalvo);
-    }
-
     public ResponsavelDTO remover(Long id) {
-        Responsavel responsavelParaRemover = this.mapper.toEntity(this.obterPorId(id));
-        repository.delete(responsavelParaRemover);
-        return mapper.toDto(responsavelParaRemover);
+        Responsavel responsavel = this.mapper.toEntity(this.obterPorId(id));
+        responsavelSearchRepository.deleteById(id);
+        repository.delete(responsavel);
+        return mapper.toDto(responsavel);
     }
 
     private void verificaRepeticao(Long id) {
         if (!repository.existsById(id))
             throw new RegraNegocioException("Id não encontrado!");
-    }
-
-    public String getFeingTest() {
-        return this.documentClient.getAll();
     }
 
     public Page<ResponsavelDocument> search(ResponsavelFilter responsavelFilter, Pageable pageable){

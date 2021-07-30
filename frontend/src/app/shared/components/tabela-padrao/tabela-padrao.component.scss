@@ -1,0 +1,90 @@
+:host ::ng-deep {
+  
+  .ui-table {
+
+    .ui-table-thead > tr > th, body .ui-table .ui-table-tfoot > tr > td {
+      font-weight: 600;
+      color: #000000;
+      background-color: #e2e2e2;
+      border: none
+    }
+
+    .ui-table-scrollable-header .ui-sortable-column {
+
+      .ui-sortable-column-icon {
+        color: #212121;
+        font-weight: 600;
+      }
+
+      &.ui-state-highlight .ui-sortable-column-icon {
+        color: #000000;
+      }
+    } 
+
+    .ui-table-tbody > tr > td {
+      background-color: #f4f4f4;
+      border: 1px solid #f4f4f4;
+    }
+
+  }
+
+  .ui-paginator {
+    background-color: #e2e2e2;
+    color: black;
+    border: none;
+
+    .ui-paginator-pages a{
+      font-size: 16px;
+
+      &.ui-state-active {
+        background-color: #4c3e48;
+      }
+    }
+
+    .ui-paginator-first,
+    .ui-paginator-prev,
+    .ui-paginator-next,
+    .ui-paginator-last {
+      height: 30px;
+      line-height: 30px;
+      color: #3e464c;
+      border-radius: 50%;
+    }
+
+    .ui-dropdown .ui-dropdown-trigger .pi {
+      color: #3e464c;
+    }
+  }
+  
+  .ui-widget-header {
+    border: none;
+  }
+
+} 
+
+.icone-editar{
+  color: blue;
+}
+
+.icone-excluir{
+  color: red;
+}
+
+.icone-editar,
+.icone-excluir {
+  font-size: 16px;
+}
+
+i {
+  cursor: pointer;
+}
+
+.pesquisa {
+  text-align: center;
+  padding: 15px;
+  background-color: #e2e2e2;
+}
+
+.filtro {
+  width: 35%;
+}

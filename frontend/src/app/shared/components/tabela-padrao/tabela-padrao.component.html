@@ -1,4 +1,9 @@
-<p-table #tabela [value]="resultado.content" [lazy]="true" (onLazyLoad)="carregarTabela()" [paginator]="true"
+
+<div>
+    <div class="pesquisa">
+        <input class="filtro" placeholder="Pesquise o responsavel" [(ngModel)]="filtro.query" (change)="carregarTabela()" maxlength="200" type="text" pInputText>
+    </div>
+    <p-table #tabela [value]="resultado.content" [lazy]="true" (onLazyLoad)="carregarTabela()" [paginator]="true"
     [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
     [currentPageReportTemplate]="'Página {currentPage} de {totalPages}'" [totalRecords]="resultado.totalElements"
     [scrollable]="true">
@@ -7,6 +12,7 @@
         <colgroup *ngFor="let col of colunas">
             <col style="width:150px;">
         </colgroup>
+        <col style="width:100px">
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
@@ -14,20 +20,30 @@
                 {{col.cabecalho}}
                 <p-sortIcon [field]="col.parametro"></p-sortIcon>
             </th>
+            <th>Ações</th>
         </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-rowData let-coluna>
         <tr [pSelectableRow]="rowData">
             <td *ngFor="let col of colunas">
-                <div class="p-d-flex p-jc-center" *ngIf="verificaColunaData(col.parametro) ; else colunaPadrao">
-                    {{coluna[col.parametro] | date:'dd/MM/yyyy'}}
+                <div class="p-d-flex p-jc-center alinhamento">
+                    {{coluna[col.parametro] | dinamico: col.mascara}}
                 </div>
-                <ng-template #colunaPadrao>
-                    <div class="p-d-flex p-jc-center alinhamento">
-                        {{coluna[col.parametro] | dinamico: col.mascara}}
+            </td>
+            <td>
+                <div class="p-grid p-d-flex p-jc-center">
+                    <div class="p-col-2">
+                        <a (click)="cliqueEditar.emit(coluna.id)">
+                            <i class="icone-editar pi pi-pencil"></i>
+                        </a>
                     </div>
-                </ng-template>
+                    <div class="p-col-2">
+                        <a (click)="cliqueRemover.emit(coluna.id)">
+                            <i class="icone-excluir pi pi-trash"></i>
+                        </a>
+                    </div>               
+                </div>
             </td>
         </tr>
     </ng-template>
@@ -39,3 +55,5 @@
         </tr>
     </ng-template>
 </p-table>
+
+</div>

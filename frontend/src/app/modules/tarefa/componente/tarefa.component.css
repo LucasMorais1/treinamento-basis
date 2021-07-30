@@ -1,0 +1,41 @@
+.row-buttons {
+    margin-top: 30px;
+    margin-bottom: 30px;;
+  }
+  
+  .button-left {
+    width: 50%;
+    float: left;
+  }
+  
+  .button-right {    
+    width: 50%;
+    float: right;
+    text-align: end;
+  }
+
+  .button-novo { 
+    float: right;
+    text-align: end;
+  }
+
+  
+  .mensagem {
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .modalForm {
+    width: 650px;
+  }
+
+  :host ::ng-deep .ui-inputtext, :host ::ng-deep p-calendar {
+    width: 90%;
+  }
+
+  .tabela {
+    box-shadow: 0px 6px 8px 4px rgb(0 0 0 / 16%);;
+  }

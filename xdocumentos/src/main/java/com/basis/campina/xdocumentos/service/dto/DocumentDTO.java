@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DocumentDto {
+public class DocumentDTO {
     private String uuid;
     private String file;
 }
